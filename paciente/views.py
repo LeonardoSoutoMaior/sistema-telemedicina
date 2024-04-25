@@ -48,3 +48,11 @@ def agendar_horario(request, id_data_aberta):
         messages.add_message(request, constants.SUCCESS, 'Horário agendado com sucesso')
         
         return redirect('/pacientes/minhas_consultas/')
+    
+    
+def minhas_consultas(request):
+    if request.method == "GET":
+        minhas_consultas = Consulta.objects.filter(paciente=request.user).filter(data_aberta__data__gte=datetime.now()) # aqui ele entra na model consulta, que entra em data_aberta, que vai para outra model DataAbertas
+        return render(request, 'minhas_consultas.html', {'minhas_consultas':minhas_consultas})
+    
+    
